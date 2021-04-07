@@ -17,14 +17,16 @@ public class CameraMovement : MonoBehaviour
     {
         Vector3 movement = new Vector3();
         if (Input.GetKey(KeyCode.W)) movement.z += movementSpeed * Time.deltaTime;
-        if (Input.GetKey(KeyCode.A)) movement.x -= movementSpeed * Time.deltaTime;
-        if (Input.GetKey(KeyCode.S)) movement.z -= movementSpeed * Time.deltaTime;
-        if (Input.GetKey(KeyCode.D)) movement.x += movementSpeed * Time.deltaTime;
+        else if (Input.mousePosition.y >= Screen.height - 1) movement.z += movementSpeed * Time.deltaTime;
 
-        if (Input.mousePosition.x <= 1) movement.x -= movementSpeed * Time.deltaTime;
-        if (Input.mousePosition.x >= Screen.width-1) movement.x += movementSpeed * Time.deltaTime;
-        if (Input.mousePosition.y <= 1) movement.z -= movementSpeed * Time.deltaTime; ;
-        if (Input.mousePosition.y >= Screen.height-1) movement.z += movementSpeed * Time.deltaTime; ;
+        if (Input.GetKey(KeyCode.A)) movement.x -= movementSpeed * Time.deltaTime;
+        else if (Input.mousePosition.x <= 1) movement.x -= movementSpeed * Time.deltaTime;
+
+        if (Input.GetKey(KeyCode.S)) movement.z -= movementSpeed * Time.deltaTime;
+        else if (Input.mousePosition.y <= 1) movement.z -= movementSpeed * Time.deltaTime; ;
+
+        if (Input.GetKey(KeyCode.D)) movement.x += movementSpeed * Time.deltaTime;
+        else if (Input.mousePosition.x >= Screen.width - 1) movement.x += movementSpeed * Time.deltaTime;
 
 
         transform.position += movement;

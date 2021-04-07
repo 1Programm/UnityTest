@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -13,40 +12,33 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 vel;
     private bool reachedGoal;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (!reachedGoal)
-        {
-            if (vel != null)
-            {
+    void Update() {
+        if (!reachedGoal) {
+            if (vel != null) {
                 gameObject.transform.position += vel * Time.deltaTime;
             }
 
-            if (goal != null)
-            {
+            if (goal != null) {
                 float goalDist = Vector3.Distance(transform.position, goal);
-                if (goalDist <= minDistanceToGoal)
-                {
+                if (goalDist <= minDistanceToGoal) {
                     reachedGoal = true;
                 }
             }
         }
 
-        if (Input.GetMouseButtonDown(0))
-        {
+        if (Input.GetMouseButton(0)) {                                  //Later maybe change it so it doesnt calculates everything for every update
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                Transform objectHit = hit.transform;
+            string[] layerNames = {"Player"};
+            int layerMask = LayerMask.GetMask(layerNames);
+            layerMask = ~layerMask;
 
+
+            if (Physics.Raycast(ray, out RaycastHit hit, 100, layerMask)) {
+                Transform objectHit = hit.transform;
+                
                 goal = hit.point;
 
                 vel = goal - transform.position;
