@@ -13,18 +13,19 @@ public class Inventory : MonoBehaviour
     private IItem[] items;
     void Start()
     {
+        RectTransform rT = (RectTransform)gameObject.transform;
+        
         items = new IItem[slotCount];
         for (int i = 0; i<slotCount; i++)
         {
-            
-
                GameObject slot = Instantiate(prefab);
+
 
             RectTransform tran = (RectTransform)slot.transform;
             tran.SetParent(gameObject.transform, false);
             tran.anchorMin = new Vector2(0,1);
             tran.anchorMax = new Vector2(0,1);
-            tran.anchoredPosition = new Vector3(i%rowCount*100, -i/rowCount*100, 0);
+            tran.anchoredPosition = new Vector3(100 + i%rowCount* ((int)(rT.sizeDelta.x-100) / rowCount),-100 -i/rowCount*200 , 0);
             //Make spread relative to count and pixels
         }
         

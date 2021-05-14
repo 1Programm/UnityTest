@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 goal;
     private Vector3 vel;
     private bool reachedGoal;
+    private bool movementEnabled = true;
 
 
     // Update is called once per frame
@@ -28,27 +29,34 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButton(0)) {                                  //Later maybe change it so it doesnt calculates everything for every update
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        if(movementEnabled) {
+            if (Input.GetMouseButton(0)) {                                  //Later maybe change it so it doesnt calculates everything for every update
+                Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 
-            string[] layerNames = {"Player"};
-            int layerMask = LayerMask.GetMask(layerNames);
-            layerMask = ~layerMask;
+                string[] layerNames = {"Player"};
+                int layerMask = LayerMask.GetMask(layerNames);
+                layerMask = ~layerMask;
 
 
-            if (Physics.Raycast(ray, out RaycastHit hit, 100, layerMask)) {
-                Transform objectHit = hit.transform;
+                if (Physics.Raycast(ray, out RaycastHit hit, 100, layerMask)) {
+                    Transform objectHit = hit.transform;
                 
-                goal = hit.point;
+                    goal = hit.point;
 
-                vel = goal - transform.position;
-                vel.Normalize();
-                vel.x *= movementSpeed;
-                vel.y = 0;
-                vel.z *= movementSpeed;
+                    vel = goal - transform.position;
+                    vel.Normalize();
+                    vel.x *= movementSpeed;
+                    vel.y = 0;
+                    vel.z *= movementSpeed;
 
-                reachedGoal = false;
+                    reachedGoal = false;
+                }
             }
         }
+    }
+
+    public void setMovementEnabled(bool b)
+    {
+        movementEnabled = b;
     }
 }

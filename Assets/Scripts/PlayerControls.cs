@@ -7,12 +7,19 @@ public class PlayerControls : MonoBehaviour
 
     [SerializeField] GameObject inventory;
 
-    // Update is called once per frame
+    private PlayerMovement a;
+    private void Start()
+    {
+        a = GetComponent<PlayerMovement>();
+    }
+
+
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.E))
         {
             inventory.SetActive(!inventory.activeSelf);
+            a.setMovementEnabled(!inventory.activeSelf);
         }
     }
 }
